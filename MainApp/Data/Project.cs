@@ -1,10 +1,13 @@
+using Amazon.DynamoDBv2.DataModel;
 using System;
 using System.Numerics;
 
 namespace ProjectManager.Data
 {
+    [DynamoDBTable("ProjectIdeasDBProd")]
     public class Project
     {
+        [DynamoDBRangeKey]
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -23,7 +26,8 @@ namespace ProjectManager.Data
 
         public Array? Examples { get; set; }
 
-        public ProjectType ProjectType { get; set; }
+        [DynamoDBHashKey]
+        public ProjectType Type { get; set; }
 
         public bool isPublic { get; set; }
     }

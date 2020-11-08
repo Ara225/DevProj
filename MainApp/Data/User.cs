@@ -12,6 +12,6 @@ namespace ProjectManager.Data
 
         public string? Email { get; set; }
 
-        public Array<string> ProjectIDs { get; set; }
+        public Array ProjectIDs { get; set; }
     }
 }
