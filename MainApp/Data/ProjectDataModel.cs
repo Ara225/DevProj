@@ -5,7 +5,7 @@ using System.Numerics;
 namespace ProjectManager.Data
 {
     [DynamoDBTable("ProjectIdeasDBProd")]
-    public class Project
+    public class ProjectDataModel
     {
         [DynamoDBRangeKey]
         public string Id { get; set; }
@@ -14,7 +14,7 @@ namespace ProjectManager.Data
 
         public string Description { get; set; }
 
-        public BigInteger UpVotes { get; set; }
+        public int UpVotes { get; set; }
 
         public string Author { get; set; }
 
