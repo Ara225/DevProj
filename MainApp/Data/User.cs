@@ -10,7 +10,7 @@ namespace ProjectManager.Data
 
         public string Bio { get; set; }
 
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         public Array ProjectIDs { get; set; }
     }
