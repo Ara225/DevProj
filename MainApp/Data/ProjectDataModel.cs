@@ -1,6 +1,5 @@
 using Amazon.DynamoDBv2.DataModel;
-using System;
-using System.Numerics;
+using System.Collections.Generic;
 
 namespace ProjectManager.Data
 {
@@ -17,14 +16,14 @@ namespace ProjectManager.Data
         public int UpVotes { get; set; }
 
         public string Author { get; set; }
+        public string Source { get; set; } = "";
 
-        public string? Source { get; set; }
+        public List<string> Steps { get; set; } = new List<string> {};
 
-        public Array? Steps { get; set; }
+        public List<string> UserStories { get; set; } = new List<string> {};
 
-        public Array? UserStories { get; set; }
+        public List<string> Examples { get; set; } = new List<string> {};
 
-        public Array? Examples { get; set; }
 
         [DynamoDBHashKey]
         public ProjectType Type { get; set; }

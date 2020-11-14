@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace ProjectManager.Models
 {
@@ -8,13 +9,13 @@ namespace ProjectManager.Models
 
         public string Description { get; set; }
 
-        public string? Source { get; set; }
+        public string Source { get; set; } = "";
 
-        public Array? Steps { get; set; }
+        public List<string> Steps { get; set; } = new List<string> {};
 
-        public Array? UserStories { get; set; }
+        public List<string> UserStories { get; set; } = new List<string> {};
 
-        public Array? Examples { get; set; }
+        public List<string> Examples { get; set; } = new List<string> {};
 
         public int Type { get; set; }
     }
