@@ -4,43 +4,86 @@
     ViewData["Title"] = "CreateProject";
 }
 
-<div class="container-flex"  style="background-color: #2b353f;color: white;">
+<div class="container">
     <form asp-action="CreateProject" class="form-container">
-        <div class="col-10 p-5 container" style="background-color: #2b353f;color: white;">
-            <h1>Create a project</h1>
-            <span class="label-input100" asp-for="Name">Project Name *</span>
-            <div class="wrap-input100 validate-input bg1">
-                <input asp-for="Name" class="input100" type="text" required placeholder="Enter a Project Name" />
-            </div>
-            <div class="row">
-                <div class="col-md-6 col-12">
-                    <span class="label-input100" asp-for="Source">Source</span>
-                    <div class="wrap-input100 validate-input bg1">
-                        <input class="input100" asp-for="Source" type="text" placeholder="Source of the project idea" />
+        <div class="row">
+            <div class="col-12 col-md-9 pb-5 pt-5">
+                <div class="card p-2">
+                    <div class="form-group">
+                        <label class="sr-only" asp-for="Name">Project Name (required)</label>
+                        <input asp-for="Name" class="form-control" type="text" required placeholder="Project Name"
+                            style="font-size: larger;" />
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" asp-for="Description">Description (required)</label>
+                        <textarea class="form-control" asp-for="Description" rows="10" required
+                            placeholder="Project Description"></textarea>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-3 col-12">
+                            <label class="sr-only" asp-for="Source">Source</label>
+                            <input class="form-control" asp-for="Source" type="text"
+                                placeholder="Source of the project idea" />
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <label class="sr-only" asp-for="Type">Type *</label>
+                            <select class="form-control" asp-for="Type" type="text" required>
+                                <option value="">-- Select --</option>
+                                <option value="0">Full Stack</option>
+                                <option value="1">Backend</option>
+                                <option value="2">Mobile</option>
+                                <option value="3">Frontend</option>
+                                <option value="4">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-success">Create Project</button>
                     </div>
                 </div>
-                <div class="col-md-6 col-12">
-                    <span class="label-input100" asp-for="Type">Type *</span>
-                    <div class="wrap-input100 validate-input bg1">
-                        <select class="input100" asp-for="Type" type="text" required>
-                            <option value="">-- Select --</option>
-                            <option value="0">Full Stack</option>
-                            <option value="1">Backend</option>
-                            <option value="2">Mobile</option>
-                            <option value="3">Frontend</option>
-                            <option value="4">Other</option>
-                        </select>
+            </div>
+            <div class="col-12 col-md-3 pb-5 pt-5">
+                <div style="font-size:smaller">
+                    <div class="row">
+                        <span class="col-6" style="line-height: 2em;">
+                            User Stories
+                            <br>
+                            None Yet
+                        </span>
+                        <div class="text-right col-6">
+                            <a href="#" class="fas fa-edit" style="font-size: medium;"></a>
+                        </div>
                     </div>
+                    <hr>
                 </div>
-            </div>
-            <span class="label-input100">Message</span>
-            <div class="wrap-input100 validate-input bg1 rs1-alert-validate" asp-for="Description">
-                <textarea class="input100" asp-for="Description" rows="10" required placeholder="Project Description"></textarea>
-            </div>
-            <div class="text-right">
-                <button class="btn btn-success">Create</button>
+                <div style="font-size:smaller">
+                    <div class="row">
+                        <span class="col-6" style="line-height: 2em;">
+                            Examples
+                            <br>
+                            None Yet
+                        </span>
+                        <div class="text-right col-6">
+                            <a href="#" class="fas fa-edit" style="font-size: medium;"></a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div style="font-size:smaller">
+                    <div class="row">
+                        <span class="col-6" style="line-height: 2em;">
+                            Steps
+                            <br>
+                            None Yet
+                        </span>
+                        <div class="text-right col-6">
+                            <a href="#" class="fas fa-edit" style="font-size: medium;"></a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
             </div>
         </div>
     </form>
 </div>
-
