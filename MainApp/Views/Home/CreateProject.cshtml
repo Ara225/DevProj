@@ -70,7 +70,7 @@
                         <div class="text-right col-6">
                             <button class="fas fa-edit"
                                 style="font-size: medium;background-color:transparent;border:none;" type="button"
-                                data-toggle="modal" data-target="#modal"></button>
+                                data-toggle="modal" data-target="#modal" onclick="populateModal(getChildInputElements(document.getElementById('ExamplesGroup')), document.getElementById('ExamplesGroup'))"></button>
                         </div>
                         <div id="ExamplesGroup" class="d-none"></div>
                     </div>
@@ -106,20 +106,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="p-2 container">
-                    <div class="input-group">
-                        <input class="form-control" readonly type="text" class="form-control rounded-right"
-                            required>
-                        <div class="input-group-append">
-                            <button class="btn btn-danger">X</button>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" class="form-control rounded-right" required>
-                        <div class="input-group-append">
-                            <button class="btn btn-success">Add</button>
-                        </div>
-                    </div>
+                <div class="p-2 container" id="modalBody">
+                    <div id="items"></div>
                 </div>
             </div>
         </div>
