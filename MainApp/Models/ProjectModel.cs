@@ -11,12 +11,6 @@ namespace ProjectManager.Models
 
         public string Source { get; set; } = "";
 
-        public List<string> Steps { get; set; } = new List<string> {};
-
-        public List<string> UserStories { get; set; } = new List<string> {};
-
-        public List<string> Examples { get; set; } = new List<string> {};
-
         public int Type { get; set; }
     }
 }

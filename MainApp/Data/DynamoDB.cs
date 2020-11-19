@@ -32,9 +32,6 @@ namespace ProjectManager.Data
                 UpVotes = 0,
                 Author = "A_USER",
                 Source = project.Source,
-                Steps = project.Steps,
-                UserStories = project.UserStories,
-                Examples = project.Examples,
                 Type = (ProjectType)project.Type,
                 isPublic = true
             };
