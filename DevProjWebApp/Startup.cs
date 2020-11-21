@@ -1,18 +1,12 @@
-using DevProjWebApp.Data;
+using DynamoDBUserStore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DevProjWebApp
 {
@@ -28,21 +22,16 @@ namespace DevProjWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string GitHubOAuthClientId = Environment.GetEnvironmentVariable("GitHubOAuthClientId");
-            string GitHubOAuthClientSecret = Environment.GetEnvironmentVariable("GitHubOAuthClientSecret");
+            string GitHubOAuthClientId = "3c789086229a89c60575";
+            string GitHubOAuthClientSecret = "17a7d95f7f8a308b4d1d66da0115ffd07e1356c7";
 
             if (GitHubOAuthClientId == null || GitHubOAuthClientSecret == null)
             {
                 throw new Exception("One or both of the GitHubOAuthClientSecret or GitHubOAuthClientId environment variables are missing!");
             }
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
-
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSingleton<InMemoryUserDataAccess>();
+            services.AddDefaultIdentity<DynamoDBUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddUserStore<InMemoryUserStore>();
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -51,12 +40,14 @@ namespace DevProjWebApp
                 options.LoginPath = "/signin";
                 options.LogoutPath = "/signout";
             }).AddGitHub(options =>
-                    {
-                        options.ClientId = GitHubOAuthClientId;
-                        options.ClientSecret = GitHubOAuthClientSecret;
-                        options.Scope.Add("user:email");
-                    });
+            {
+                options.ClientId = GitHubOAuthClientId;
+                options.ClientSecret = GitHubOAuthClientSecret;
+                options.Scope.Add("user:email");
+            });
             services.AddControllersWithViews();
+            services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
