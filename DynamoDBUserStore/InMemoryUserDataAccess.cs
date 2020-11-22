@@ -39,10 +39,21 @@ namespace DynamoDBUserStore
             return user.NormalizedUserName;
         }
 
+        public DynamoDBUser GetUserByLogin(string loginProvider, string providerKey)
+        {
+            return _users.FirstOrDefault(u => u.LoginProviders.Contains(loginProvider) && u.LoginProviderKeys.Contains(providerKey));
+        }
+
         public bool Update(DynamoDBUser user)
         {
             // Since get user gets the user from the same in-memory list,
             // the user parameter is the same as the object in the list, so nothing needs to be updated here.
+            return true;
+        }
+
+        public bool Delete(DynamoDBUser user)
+        {
+            _users.Remove(user);
             return true;
         }
     }

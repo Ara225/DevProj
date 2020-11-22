@@ -15,9 +15,11 @@ namespace DynamoDBUserStore
             _dataAccess = da;
         }
 
-        public Task AddLoginAsync(DynamoDBUser user, UserLoginInfo login, CancellationToken cancellationToken)
+        public async Task AddLoginAsync(DynamoDBUser user, UserLoginInfo login, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            user.LoginProviderDisplayNames.Add(login.ProviderDisplayName);
+            user.LoginProviderKeys.Add(login.ProviderKey);
+            user.LoginProviders.Add(login.LoginProvider);
         }
 
         public Task<IdentityResult> CreateAsync(DynamoDBUser user, CancellationToken cancellationToken)
@@ -36,9 +38,10 @@ namespace DynamoDBUserStore
             });
         }
 
-        public Task<IdentityResult> DeleteAsync(DynamoDBUser user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> DeleteAsync(DynamoDBUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            _dataAccess.Delete(user);
+            return IdentityResult.Success;
         }
 
         public void Dispose()
@@ -62,9 +65,9 @@ namespace DynamoDBUserStore
             });
         }
 
-        public Task<DynamoDBUser> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
+        public async Task<DynamoDBUser> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _dataAccess.GetUserByLogin(loginProvider, providerKey);
         }
 
         public Task<DynamoDBUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
@@ -91,9 +94,14 @@ namespace DynamoDBUserStore
             });
         }
 
-        public Task<IList<UserLoginInfo>> GetLoginsAsync(DynamoDBUser user, CancellationToken cancellationToken)
+        public async Task<IList<UserLoginInfo>> GetLoginsAsync(DynamoDBUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            List<UserLoginInfo> UserLogins = new List<UserLoginInfo>();
+            for (int i = 0; i < user.LoginProviders.Count; i++)
+            {
+                UserLogins.Add(new UserLoginInfo(user.LoginProviders[i], user.LoginProviderKeys[i], user.LoginProviderDisplayNames[i]));
+            }
+            return UserLogins;
         }
 
         public Task<string> GetNormalizedEmailAsync(DynamoDBUser user, CancellationToken cancellationToken)
@@ -138,9 +146,18 @@ namespace DynamoDBUserStore
             return Task<bool>.Run(() => { return true; });
         }
 
-        public Task RemoveLoginAsync(DynamoDBUser user, string loginProvider, string providerKey, CancellationToken cancellationToken)
+        public async Task RemoveLoginAsync(DynamoDBUser user, string loginProvider, string providerKey, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < user.LoginProviderKeys.Count; i++)
+            {
+                if (user.LoginProviderKeys[i] == providerKey)
+                {
+                    user.LoginProviderKeys.RemoveAt(i);
+                    user.LoginProviderDisplayNames.RemoveAt(i);
+                    user.LoginProviders.RemoveAt(i);
+                    break;
+                }
+            }
         }
 
         public Task SetEmailAsync(DynamoDBUser user, string email, CancellationToken cancellationToken)
