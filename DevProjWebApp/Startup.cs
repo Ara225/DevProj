@@ -1,3 +1,5 @@
+using Amazon.SimpleSystemsManagement;
+using Amazon.SimpleSystemsManagement.Model;
 using DynamoDBUserStore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DevProjWebApp
 {
@@ -16,22 +20,21 @@ namespace DevProjWebApp
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string GitHubOAuthClientId = "3c789086229a89c60575";
-            string GitHubOAuthClientSecret = "17a7d95f7f8a308b4d1d66da0115ffd07e1356c7";
+            // Get GitHub Oauth secrets
+            Dictionary<string, string> dict = GetSecretsFromParameterStore("/DevProj").Result;
+            string GitHubOAuthClientId = dict["GitHubOAuthClientId"];
+            string GitHubOAuthClientSecret = dict["GitHubOAuthClientSecret"];
 
-            if (GitHubOAuthClientId == null || GitHubOAuthClientSecret == null)
-            {
-                throw new Exception("One or both of the GitHubOAuthClientSecret or GitHubOAuthClientId environment variables are missing!");
-            }
+            // Add DynamoDB user store
             services.AddSingleton<InMemoryUserDataAccess>();
             services.AddDefaultIdentity<DynamoDBUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddUserStore<InMemoryUserStore>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -47,7 +50,6 @@ namespace DevProjWebApp
             });
             services.AddControllersWithViews();
             services.AddRazorPages();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +79,33 @@ namespace DevProjWebApp
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
+        }
+
+        /// <summary>
+        /// Function to get the app secrets from the AWS systems manager Parameter Store.
+        /// </summary>
+        /// <param name="Path">The Parameter Store path/prefix</param>
+        /// <returns>
+        /// Dictionary of all parameters under that prefix with the item's names (minus the path prefix) as the 
+        /// key and the decrypted value as the value.
+        /// </returns>
+        private async Task<Dictionary<string, string>> GetSecretsFromParameterStore(string Path)
+        {
+            using (var client = new AmazonSimpleSystemsManagementClient(Amazon.RegionEndpoint.EUWest2))
+            {
+                var result = await client.GetParametersByPathAsync(new GetParametersByPathRequest
+                {
+                    Path = Path,
+                    Recursive = true,
+                    WithDecryption = true
+                });
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                result.Parameters.ForEach(item =>
+                {
+                    parameters.Add(item.Name.Replace(Path + "/", ""), item.Value);
+                });
+                return parameters;
+            }
         }
     }
 }
