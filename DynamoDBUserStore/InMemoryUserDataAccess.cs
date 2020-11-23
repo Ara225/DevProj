@@ -13,6 +13,12 @@ namespace DynamoDBUserStore
         {
             _users = new List<DynamoDBUser>();
         }
+
+        public InMemoryUserDataAccess(string DynamoDBEndpoint)
+        {
+            _users = new List<DynamoDBUser>();
+        }
+
         public bool CreateUser(DynamoDBUser user)
         {
             _users.Add(user);
