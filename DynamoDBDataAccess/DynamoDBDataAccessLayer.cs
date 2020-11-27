@@ -7,15 +7,15 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using System.Threading;
 
-namespace DynamoDBUserStore
+namespace DynamoDBDataAccess
 {
-    public class InMemoryUserDataAccess
+    public class DynamoDBDataAccessLayer
     {
         private List<DynamoDBUser> _users;
         private AmazonDynamoDBClient _client;
         private DynamoDBContext _context;
 
-        public InMemoryUserDataAccess(AmazonDynamoDBClient Client)
+        public DynamoDBDataAccessLayer(AmazonDynamoDBClient Client)
         {
             _client = Client;
             _context = new DynamoDBContext(Client); 

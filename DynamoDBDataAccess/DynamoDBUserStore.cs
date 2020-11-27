@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DynamoDBUserStore
+namespace DynamoDBDataAccess
 {
-    public class InMemoryUserStore : IUserPasswordStore<DynamoDBUser>, IUserEmailStore<DynamoDBUser>, IUserLoginStore<DynamoDBUser>
+    public class DynamoDBUserStore : IUserPasswordStore<DynamoDBUser>, IUserEmailStore<DynamoDBUser>, IUserLoginStore<DynamoDBUser>
     {
-        private InMemoryUserDataAccess _dataAccess;
-        public InMemoryUserStore(InMemoryUserDataAccess da)
+        private DynamoDBDataAccessLayer _dataAccess;
+        public DynamoDBUserStore(DynamoDBDataAccessLayer da)
         {
             _dataAccess = da;
         }
@@ -30,7 +30,7 @@ namespace DynamoDBUserStore
             }
 
             cancellationToken.ThrowIfCancellationRequested();
-            await _dataAccess.CreateUser(user, cancellationToken);
+            await _dataAccess.SaveItemToDB(user, cancellationToken);
             return IdentityResult.Success;
         }
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamoDBUserStore
+namespace DynamoDBDataAccess
 {
     [DynamoDBTable("DevProjUsers")]
     public class DynamoDBUser
@@ -40,7 +40,7 @@ namespace DynamoDBUserStore
 
             UserName = userName;
             NormalizedUserName = userName.ToUpper();
-            CreatedOn = DateTimeOffset.Now;
+            CreatedOn = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
         }
 
         //
@@ -49,8 +49,7 @@ namespace DynamoDBUserStore
         //
         // Remarks:
         //     A value in the past means the user is not locked out.
-        [DynamoDBProperty(typeof(DateTimeOffsetConverter))]
-        public DateTimeOffset? LockoutEnd { get; set; }
+        public string? LockoutEnd { get; set; }
 
         //
         // Summary:
@@ -133,8 +132,7 @@ namespace DynamoDBUserStore
         //
         // Summary:
         //     Gets or sets the date the user was created
-        [DynamoDBProperty(typeof(DateTimeOffsetConverter))]
-        public DateTimeOffset CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
         //
         // Summary:

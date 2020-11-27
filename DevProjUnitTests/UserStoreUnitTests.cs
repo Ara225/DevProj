@@ -1,4 +1,4 @@
-using DynamoDBUserStore;
+using DynamoDBDataAccess;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -11,13 +11,13 @@ namespace DevProjUnitTests
     [TestClass]
     public class UserStoreUnitTests
     {
-        private DynamoDBUserStore.DynamoDBUserStore _store;
+        private DynamoDBUserStore _store;
         private DynamoDBUser _user;
         
         [AssemblyInitialize]
         public void Initialize()
         {
-            _store = new DynamoDBUserStore.DynamoDBUserStore(new InMemoryUserDataAccess(new Amazon.DynamoDBv2.AmazonDynamoDBClient()));
+            _store = new DynamoDBUserStore(new DynamoDBDataAccessLayer(new Amazon.DynamoDBv2.AmazonDynamoDBClient()));
             _user = new DynamoDBUser("TestUser");
             IdentityResult CreateResult = _store.CreateAsync(_user, new CancellationToken()).Result;
             Assert.AreEqual(CreateResult, IdentityResult.Success);
