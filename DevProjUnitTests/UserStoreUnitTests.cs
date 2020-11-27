@@ -11,13 +11,13 @@ namespace DevProjUnitTests
     [TestClass]
     public class UserStoreUnitTests
     {
-        private InMemoryUserStore _store;
+        private DynamoDBUserStore.DynamoDBUserStore _store;
         private DynamoDBUser _user;
         
-        [TestInitialize]
+        [AssemblyInitialize]
         public void Initialize()
         {
-            _store = new InMemoryUserStore(new InMemoryUserDataAccess());
+            _store = new DynamoDBUserStore.DynamoDBUserStore(new InMemoryUserDataAccess(new Amazon.DynamoDBv2.AmazonDynamoDBClient()));
             _user = new DynamoDBUser("TestUser");
             IdentityResult CreateResult = _store.CreateAsync(_user, new CancellationToken()).Result;
             Assert.AreEqual(CreateResult, IdentityResult.Success);

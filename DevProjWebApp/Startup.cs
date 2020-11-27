@@ -31,9 +31,9 @@ namespace DevProjWebApp
             string GitHubOAuthClientSecret = dict["GitHubOAuthClientSecret"];
 
             // Add DynamoDB user store
-            services.AddSingleton<InMemoryUserDataAccess>();
+            services.AddSingleton<DynamoDBDataAccessLayer>(x => new DynamoDBDataAccessLayer(new Amazon.DynamoDBv2.AmazonDynamoDBClient()));
             services.AddDefaultIdentity<DynamoDBUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddUserStore<InMemoryUserStore>();
+                .AddUserStore<DynamoDBUserStore>();
 
             services.AddAuthentication(options =>
             {

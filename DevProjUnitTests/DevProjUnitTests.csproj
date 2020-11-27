@@ -14,7 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\DynamoDBUserStore\DynamoDBUserStore.csproj" />
+	  <ProjectReference Include="..\DynamoDBDataAccess\DynamoDBDataAccess.csproj" />
 	</ItemGroup>
 
 </Project>
