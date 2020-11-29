@@ -11,15 +11,17 @@ namespace DevProjUnitTests
     [TestClass]
     public class UserStoreUnitTests
     {
-        private DynamoDBUserStore _store;
-        private DynamoDBUser _user;
+        private static DynamoDBUserStore _store;
+        private static DynamoDBUser _user;
         
         [AssemblyInitialize]
-        public void Initialize()
+        public static void Initialize(TestContext Context)
         {
             _store = new DynamoDBUserStore(new DynamoDBDataAccessLayer(new Amazon.DynamoDBv2.AmazonDynamoDBClient()));
             _user = new DynamoDBUser("TestUser");
-            IdentityResult CreateResult = _store.CreateAsync(_user, new CancellationToken()).Result;
+            _user.Email = "user@example.com";
+            _user.NormalizedEmail = "USER@EXAMPLE.COM";
+            IdentityResult CreateResult =  _store.CreateAsync(_user, new CancellationToken()).Result;
             Assert.AreEqual(CreateResult, IdentityResult.Success);
         }
 
@@ -27,6 +29,8 @@ namespace DevProjUnitTests
         public async Task TestLoginFunctions()
         {
             await _store.AddLoginAsync(_user, new UserLoginInfo("TestProvider", "RandomKey", "TestProviderDN"), new CancellationToken());
+            await _store.UpdateAsync(_user, new CancellationToken());
+
             DynamoDBUser user = await _store.FindByLoginAsync("TestProvider", "RandomKey", new CancellationToken());
             Assert.AreEqual(user.Id, _user.Id);
             Assert.AreEqual(user.LoginProviderKeys.Count, 1);
@@ -146,11 +150,11 @@ namespace DevProjUnitTests
         [TestMethod]
         public async Task TestSetUserName()
         {
-            await _store.SetUserNameAsync(_user, "TestUser2", new CancellationToken());
+            await _store.SetUserNameAsync(_user, "TestUser", new CancellationToken());
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        [AssemblyCleanup]
+        public static void Cleanup()
         {
             IdentityResult Result = _store.DeleteAsync(_user, new CancellationToken()).Result;
         }

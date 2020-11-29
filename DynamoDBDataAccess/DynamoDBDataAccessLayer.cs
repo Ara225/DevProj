@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using System.Threading;
+using Amazon.DynamoDBv2.DocumentModel;
 
 namespace DynamoDBDataAccess
 {
     public class DynamoDBDataAccessLayer
     {
-        private List<DynamoDBUser> _users;
         private AmazonDynamoDBClient _client;
         private DynamoDBContext _context;
 
@@ -19,51 +19,47 @@ namespace DynamoDBDataAccess
         {
             _client = Client;
             _context = new DynamoDBContext(Client); 
-            _users = new List<DynamoDBUser>();
         }
 
-        public async Task<bool> SaveItemToDB(dynamic user, CancellationToken cancellationToken)
+        public async Task<bool> SaveItemToDB(dynamic Item, CancellationToken cancellationToken)
         {
-            await _context.SaveAsync(user, cancellationToken);
+            await _context.SaveAsync(Item, cancellationToken);
             return true;
         }
 
-        public DynamoDBUser GetUserById(string id)
+        public async Task<bool> DeleteItem(dynamic Item, CancellationToken cancellationToken)
         {
-            return _users.FirstOrDefault(u => u.Id == id);
-        }
-
-        public DynamoDBUser GetByEmail(string email)
-        {
-            return _users.FirstOrDefault(u => u.NormalizedEmail == email);
-        }
-
-        public DynamoDBUser GetUserByUsername(string username)
-        {
-            return _users.FirstOrDefault(u => u.NormalizedUserName == username);
-        }
-
-        public string GetNormalizedUsername(DynamoDBUser user)
-        {
-            return user.NormalizedUserName;
-        }
-
-        public DynamoDBUser GetUserByLogin(string loginProvider, string providerKey)
-        {
-            return _users.FirstOrDefault(u => u.LoginProviders.Contains(loginProvider) && u.LoginProviderKeys.Contains(providerKey));
-        }
-
-        public bool Update(DynamoDBUser user)
-        {
-            // Since get user gets the user from the same in-memory list,
-            // the user parameter is the same as the object in the list, so nothing needs to be updated here.
+            await _context.DeleteAsync(Item, cancellationToken);
             return true;
         }
 
-        public bool Delete(DynamoDBUser user)
+        public async Task<DynamoDBUser> GetUserById(string Id)
         {
-            _users.Remove(user);
-            return true;
+            return await _context.LoadAsync<DynamoDBUser>(Id);
+        }
+
+        public async Task<DynamoDBUser> GetUserByAttribute(string Key, string ExpectedValue)
+        {
+            List<ScanCondition> ConditionList = new List<ScanCondition>();
+            ConditionList.Add(new ScanCondition(Key, ScanOperator.Equal, ExpectedValue));
+            AsyncSearch<DynamoDBUser> Users = _context.ScanAsync<DynamoDBUser>(
+                ConditionList
+            );
+            List<DynamoDBUser> UsersList = await Users.GetRemainingAsync();
+			return UsersList.FirstOrDefault();
+        }
+
+        public async Task<DynamoDBUser> GetUserByLogin(string loginProvider, string providerKey)
+        {
+            List<ScanCondition> ConditionList = new List<ScanCondition>();
+            ConditionList.Add(new ScanCondition("LoginProviders", ScanOperator.Contains, loginProvider));
+            ConditionList.Add(new ScanCondition("LoginProviderKeys", ScanOperator.Contains, providerKey));
+
+            AsyncSearch<DynamoDBUser> Users = _context.ScanAsync<DynamoDBUser>(
+                ConditionList
+            );
+            List<DynamoDBUser> UsersList = await Users.GetRemainingAsync();
+            return UsersList.FirstOrDefault();
         }
     }
 }
