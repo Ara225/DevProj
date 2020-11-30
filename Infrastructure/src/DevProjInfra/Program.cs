@@ -1,13 +1,13 @@
 ﻿using Amazon.CDK;
 
-namespace ProjectManagerInfra
+namespace DevProjInfra
 {
     sealed class Program
     {
         public static void Main(string[] args)
         {
             var app = new App();
-            new ProjectManagerInfraStack(app, "ProjectManagerInfraStack");
+            new DevProjInfraStack(app, "DevProjInfraStack");
 
             app.Synth();
         }

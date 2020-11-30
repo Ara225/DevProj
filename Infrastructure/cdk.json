@@ -1,5 +1,5 @@
 {
-  "app": "dotnet run -p src/ProjectManagerInfra/ProjectManagerInfra.csproj",
+  "app": "dotnet run -p src/DevProjInfra/DevProjInfra.csproj",
   "context": {
     "@aws-cdk/core:enableStackNameDuplicates": "true",
     "aws-cdk:enableDiffNoFail": "true",

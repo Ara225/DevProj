@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevProjWebApp", "DevProjWebApp\DevProjWebApp.csproj", "{6AF29617-2A3B-43E1-81B3-22377567840E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManagerInfra", "Infrastructure\src\ProjectManagerInfra\ProjectManagerInfra.csproj", "{06555492-BD8F-450D-91DC-83B64ACE3D83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevProjInfra", "Infrastructure\src\ProjectManagerInfra\DevProjInfra.csproj", "{06555492-BD8F-450D-91DC-83B64ACE3D83}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevProjUnitTests", "DevProjUnitTests\DevProjUnitTests.csproj", "{98D23A4D-024D-4684-A044-B6F6A411C3C1}"
 EndProject
