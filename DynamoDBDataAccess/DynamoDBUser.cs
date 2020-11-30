@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DynamoDBDataAccess
 {
-    [DynamoDBTable("DevProjUsers")]
+    [DynamoDBTable("DevProjUsersTable")]
     public class DynamoDBUser
     {
         //
@@ -103,6 +103,7 @@ namespace DynamoDBDataAccess
         //
         // Summary:
         //     Gets or sets the normalized email address for this user.
+        [ProtectedPersonalData]
         public string NormalizedEmail { get; set; }
 
         //
@@ -114,6 +115,7 @@ namespace DynamoDBDataAccess
         //
         // Summary:
         //     Gets or sets the normalized user name for this user.
+        [ProtectedPersonalData]
         public string NormalizedUserName { get; set; }
 
         //
