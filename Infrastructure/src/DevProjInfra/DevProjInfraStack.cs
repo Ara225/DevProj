@@ -7,7 +7,7 @@ namespace DevProjInfra
     {
         internal DevProjInfraStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
         {
-            Table ProjectIdeasDBProd = new Table(this, "DevProjUsersTable", new TableProps
+            Table DevProjUsersTable = new Table(this, "DevProjUsersTable", new TableProps
             {
                 PartitionKey = new Attribute
                 {
@@ -16,6 +16,17 @@ namespace DevProjInfra
                 },
                 BillingMode = BillingMode.PAY_PER_REQUEST,
                 TableName = "DevProjUsersTable"
+            });
+
+            Table DevProjProjectsTable = new Table(this, "DevProjProjectsTable", new TableProps
+            {
+                PartitionKey = new Attribute
+                {
+                    Name = "Id",
+                    Type = AttributeType.STRING
+                },
+                BillingMode = BillingMode.PAY_PER_REQUEST,
+                TableName = "DevProjProjectsTable"
             });
         }
     }
