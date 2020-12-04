@@ -19,6 +19,7 @@ namespace DynamoDBDataAccess
         {
             Id = Guid.NewGuid().ToString();
             SecurityStamp = Guid.NewGuid().ToString();
+            ConcurrencyStamp = Guid.NewGuid().ToString();
             LoginProviders = new List<string>();
             LoginProviderKeys = new List<string>();
             LoginProviderDisplayNames = new List<string>();
@@ -187,6 +188,11 @@ namespace DynamoDBDataAccess
         // Summary:
         //     The display name of the login providers used by the current user
         public List<string> LoginProviderDisplayNames { get; set; }
+
+        //
+        // Summary:
+        //     URL to profile image
+        public string ProfileImageURL { get; set; }
 
         //
         // Summary:

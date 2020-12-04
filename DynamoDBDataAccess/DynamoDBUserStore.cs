@@ -149,6 +149,7 @@ namespace DynamoDBDataAccess
 
         public async Task RemoveLoginAsync(DynamoDBUser user, string loginProvider, string providerKey, CancellationToken cancellationToken)
         {
+            user.SecurityStamp = Guid.NewGuid().ToString();
             for (int i = 0; i < user.LoginProviderKeys.Count; i++)
             {
                 if (user.LoginProviderKeys[i] == providerKey)
@@ -183,6 +184,7 @@ namespace DynamoDBDataAccess
 
         public async Task SetPasswordHashAsync(DynamoDBUser user, string passwordHash, CancellationToken cancellationToken)
         {
+            user.SecurityStamp = Guid.NewGuid().ToString();
             user.PasswordHash = passwordHash;
         }
 
@@ -194,6 +196,7 @@ namespace DynamoDBDataAccess
 
         public async Task<IdentityResult> UpdateAsync(DynamoDBUser user, CancellationToken cancellationToken)
         {
+             user.ConcurrencyStamp = Guid.NewGuid().ToString();
              IdentityResult Result = IdentityResult.Failed();
              bool UpdateResult = await _dataAccess.SaveItemToDB(user, cancellationToken);
              if (UpdateResult)
