@@ -114,6 +114,30 @@ namespace DynamoDBDataAccess
 
         //
         // Summary:
+        //     Gets or sets the email address for this user.
+        [ProtectedPersonalData]
+        public string GitHubEmail { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the email address for this user.
+        [ProtectedPersonalData]
+        public string NormalizedGitHubEmail { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the email address for this user.
+        [ProtectedPersonalData]
+        public string PendingEmail { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the email address for this user.
+        [ProtectedPersonalData]
+        public string NormalizedPendingEmail { get; set; }
+
+        //
+        // Summary:
         //     Gets or sets the normalized user name for this user.
         [ProtectedPersonalData]
         public string NormalizedUserName { get; set; }
