@@ -8,7 +8,7 @@ using Amazon.DynamoDBv2.DataModel;
 using System.Threading;
 using Amazon.DynamoDBv2.DocumentModel;
 
-namespace DynamoDBDataAccess
+namespace DataAccess
 {
     public class DynamoDBDataAccessLayer
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamoDBDataAccess
+namespace DataAccess
 {
     [DynamoDBTable("DevProjUsersTable")]
     public class DynamoDBUser
