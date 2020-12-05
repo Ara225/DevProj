@@ -1,4 +1,4 @@
-using DynamoDBDataAccess;
+using DataAccess;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -39,6 +39,7 @@ namespace DevProjUnitTests
             Assert.AreEqual(LoginInfo[0].ProviderKey, "RandomKey");
             await _store.RemoveLoginAsync(_user, "TestProvider", "RandomKey", new CancellationToken());
         }
+
 
         [TestMethod]
         public async Task TestFindByEmail()

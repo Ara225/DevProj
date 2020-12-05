@@ -35,14 +35,7 @@ namespace DevProjWebApp
             services.AddDefaultIdentity<DynamoDBUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddUserStore<DynamoDBUserStore>();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(options =>
-            {
-                options.LoginPath = "/signin";
-                options.LogoutPath = "/signout";
-            }).AddGitHub(options =>
+            services.AddAuthentication().AddGitHub(options =>
             {
                 options.ClientId = GitHubOAuthClientId;
                 options.ClientSecret = GitHubOAuthClientSecret;
