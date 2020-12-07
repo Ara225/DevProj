@@ -115,30 +115,6 @@ namespace DataAccess
 
         //
         // Summary:
-        //     Gets or sets the email address for this user.
-        [ProtectedPersonalData]
-        public string GitHubEmail { get; set; }
-
-        //
-        // Summary:
-        //     Gets or sets the email address for this user.
-        [ProtectedPersonalData]
-        public string NormalizedGitHubEmail { get; set; }
-
-        //
-        // Summary:
-        //     Gets or sets the email address for this user.
-        [ProtectedPersonalData]
-        public string PendingEmail { get; set; }
-
-        //
-        // Summary:
-        //     Gets or sets the email address for this user.
-        [ProtectedPersonalData]
-        public string NormalizedPendingEmail { get; set; }
-
-        //
-        // Summary:
         //     Gets or sets the normalized user name for this user.
         [ProtectedPersonalData]
         public string NormalizedUserName { get; set; }
@@ -155,6 +131,12 @@ namespace DataAccess
         [PersonalData]
         [DynamoDBHashKey]
         public string Id { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the Authenticator key for this user.
+        [PersonalData]
+        public string AuthenticatorKey { get; set; }
 
         //
         // Summary:
@@ -194,6 +176,11 @@ namespace DataAccess
         //     URL to profile image
         public string ProfileImageURL { get; set; }
 
+        //
+        // Summary:
+        //     Two factor recovery codes
+        public List<string> RecoveryCodes { get; set; }
+        
         //
         // Summary:
         //     Returns the username for this user.

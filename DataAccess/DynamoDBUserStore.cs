@@ -7,12 +7,52 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public class DynamoDBUserStore : IUserPasswordStore<DynamoDBUser>, IUserEmailStore<DynamoDBUser>, IUserLoginStore<DynamoDBUser>
+    public class DynamoDBUserStore : IUserTwoFactorRecoveryCodeStore<DynamoDBUser>, IUserTwoFactorStore<DynamoDBUser>, IUserAuthenticatorKeyStore<DynamoDBUser>, IUserPhoneNumberStore<DynamoDBUser>, IUserPasswordStore<DynamoDBUser>, IUserEmailStore<DynamoDBUser>, IUserLoginStore<DynamoDBUser>
     {
         private DynamoDBDataAccessLayer _dataAccess;
         public DynamoDBUserStore(DynamoDBDataAccessLayer da)
         {
             _dataAccess = da;
+        }
+
+        public async Task<bool> GetTwoFactorEnabledAsync(DynamoDBUser user, CancellationToken cancellationToken)
+        {
+            return user.TwoFactorEnabled;
+        }
+
+        public async Task SetTwoFactorEnabledAsync(DynamoDBUser user, bool enabled, CancellationToken cancellationToken)
+        {
+            user.TwoFactorEnabled = enabled;
+        }
+
+        public async Task<string> GetAuthenticatorKeyAsync(DynamoDBUser user, CancellationToken cancellationToken)
+        {
+            return user.AuthenticatorKey;
+        }
+
+        public async Task SetAuthenticatorKeyAsync(DynamoDBUser user, string key, CancellationToken cancellationToken)
+        {
+            user.AuthenticatorKey = key;
+        }
+
+        public async Task<string> GetPhoneNumberAsync(DynamoDBUser user, CancellationToken cancellationToken)
+        {
+            return user.PhoneNumber;
+        }
+
+        public async Task<bool> GetPhoneNumberConfirmedAsync(DynamoDBUser user, CancellationToken cancellationToken)
+        {
+            return user.PhoneNumberConfirmed;
+        }
+
+        public async Task SetPhoneNumberAsync(DynamoDBUser user, string phoneNumber, CancellationToken cancellationToken)
+        {
+            user.PhoneNumber = phoneNumber;
+        }
+
+        public async Task SetPhoneNumberConfirmedAsync(DynamoDBUser user, bool confirmed, CancellationToken cancellationToken)
+        {
+            user.PhoneNumberConfirmed = confirmed;
         }
 
         public async Task AddLoginAsync(DynamoDBUser user, UserLoginInfo login, CancellationToken cancellationToken)
@@ -204,6 +244,28 @@ namespace DataAccess
                   Result = IdentityResult.Success;
              }
              return Result;
+        }
+
+        public async Task ReplaceCodesAsync(DynamoDBUser user, IEnumerable<string> recoveryCodes, CancellationToken cancellationToken)
+        {
+            user.RecoveryCodes = recoveryCodes.ToList();
+        }
+
+        public async Task<bool> RedeemCodeAsync(DynamoDBUser user, string code, CancellationToken cancellationToken)
+        {
+            return user.RecoveryCodes.Remove(code);
+        }
+
+        public async Task<int> CountCodesAsync(DynamoDBUser user, CancellationToken cancellationToken)
+        {
+            if (user.RecoveryCodes != null)
+            {
+                return user.RecoveryCodes.Count;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

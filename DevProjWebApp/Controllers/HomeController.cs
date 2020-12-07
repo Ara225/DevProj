@@ -1,11 +1,14 @@
 ﻿using DevProjWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
+using DataAccess;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace DevProjWebApp.Controllers
 {
@@ -17,18 +20,13 @@ namespace DevProjWebApp.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
         {
             return View();
         }
 
         public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult UserSettings()
         {
             return View();
         }
