@@ -1,0 +1,68 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="col-12 container text-center pb-3">
+    <section class="col-12 col-lg-5 container pt-5">
+        <form class="pt-5" id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+            <div>
+                <p>
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        @if (provider.DisplayName == "GitHub")
+                        {
+                            <button type="submit" class="btn w-100 bg-dark text-white" name="provider" value="@provider.Name" title="Log in with @provider.DisplayName"><i class="fab fa-github"></i> Log in with @provider.DisplayName</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn w-100 btn-primary" name="provider" value="@provider.Name" title="Log in with @provider.DisplayName">Log in with @provider.DisplayName</button>
+                        }
+                    }
+                </p>
+            </div>
+        </form>
+        <div class="card">
+            <form id="account" method="post" class="card-body text-left">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label style="font-weight: bold;" asp-for="Input.UserName"></label>
+                    <input asp-for="Input.UserName" class="form-control" />
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;" asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Log in</button>
+                <div class="text-center mt-3">
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a New User</a>
+                </div>
+            </form>
+        </div>
+        <br />
+        <div class="form-group text-left pl-1">
+            <p>
+                <a id="forgot-password" asp-page="./ForgotPassword">Forgot password?</a>
+            </p>
+            <p>
+                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+            </p>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

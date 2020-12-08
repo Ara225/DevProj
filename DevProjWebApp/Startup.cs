@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,6 +42,7 @@ namespace DevProjWebApp
                 options.ClientSecret = GitHubOAuthClientSecret;
                 options.Scope.Add("user:email");
             });
+            services.AddTransient<IEmailSender, SESEmailSender>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
