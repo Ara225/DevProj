@@ -4,8 +4,8 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="col-12 container text-center">
-    <section class=" col-12 col-lg-4 container pt-5">
+<div class="col-12 container text-center mb-3">
+    <section class=" col-12 col-lg-5 container pt-5">
         <form class="pt-5" id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
             <div>
                 <p>
@@ -28,7 +28,12 @@
                 <h5>Register with Email</h5>
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label style="font-weight: bold;"  asp-for="Input.Email"></label>
+                    <label style="font-weight: bold;" asp-for="Input.UserName"></label>
+                    <input asp-for="Input.UserName" class="form-control" />
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;" asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" class="form-control" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
@@ -42,7 +47,10 @@
                     <input asp-for="Input.ConfirmPassword" class="form-control" />
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+                <div class="text-center mt-3">
+                    <a asp-page="./Login">Login as a existing user</a>
+                </div>
             </form>
         </div>
     </section>
