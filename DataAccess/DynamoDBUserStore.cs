@@ -132,7 +132,7 @@ namespace DataAccess
 
         public async Task<string> GetEmailAsync(DynamoDBUser user, CancellationToken cancellationToken)
         {
-             return user.Email;
+            return user.Email;
         }
 
         public async Task<bool> GetEmailConfirmedAsync(DynamoDBUser user, CancellationToken cancellationToken)
@@ -177,7 +177,7 @@ namespace DataAccess
 
         public async Task<bool> HasPasswordAsync(DynamoDBUser user, CancellationToken cancellationToken)
         {
-            if (user.PasswordHash == "")
+            if (user.PasswordHash == null || user.PasswordHash.Count() == 0)
             {
                 return false;
             }
@@ -204,7 +204,7 @@ namespace DataAccess
 
         public async Task SetEmailAsync(DynamoDBUser user, string email, CancellationToken cancellationToken)
         {
-             user.Email = email;
+            user.Email = email;
         }
 
         public async Task SetEmailConfirmedAsync(DynamoDBUser user, bool confirmed, CancellationToken cancellationToken)
@@ -236,14 +236,14 @@ namespace DataAccess
 
         public async Task<IdentityResult> UpdateAsync(DynamoDBUser user, CancellationToken cancellationToken)
         {
-             user.ConcurrencyStamp = Guid.NewGuid().ToString();
-             IdentityResult Result = IdentityResult.Failed();
-             bool UpdateResult = await _dataAccess.SaveItemToDB(user, cancellationToken);
-             if (UpdateResult)
-             {
-                  Result = IdentityResult.Success;
-             }
-             return Result;
+            user.ConcurrencyStamp = Guid.NewGuid().ToString();
+            IdentityResult Result = IdentityResult.Failed();
+            bool UpdateResult = await _dataAccess.SaveItemToDB(user, cancellationToken);
+            if (UpdateResult)
+            {
+                Result = IdentityResult.Success;
+            }
+            return Result;
         }
 
         public async Task ReplaceCodesAsync(DynamoDBUser user, IEnumerable<string> recoveryCodes, CancellationToken cancellationToken)
