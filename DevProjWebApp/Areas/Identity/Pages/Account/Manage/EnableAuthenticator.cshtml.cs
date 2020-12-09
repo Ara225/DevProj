@@ -149,7 +149,7 @@ namespace DevProjWebApp.Areas.Identity.Pages.Account.Manage
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("DevProjWebApp"),
+                _urlEncoder.Encode("DevProj"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
