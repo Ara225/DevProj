@@ -31,6 +31,29 @@ namespace DevProjWebApp.Controllers
             return View();
         }
 
+        public IActionResult GoalCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult GoalCreate(GoalViewModel modal)
+        {
+            System.Diagnostics.Debug.WriteLine(modal.GoalDueBy);
+            return View();
+        }
+
+        public IActionResult ProjectCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ProjectCreate(ProjectViewModel modal)
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

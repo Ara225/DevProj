@@ -6,7 +6,7 @@ namespace DevProjWebApp.Models
     {
         public string Name { get; set; }
 
-        public List<string> LinkedRepositoriesURLs { get; set; }
+        public string LinkedRepositoryURL { get; set; }
         
         public string Description { get; set; }
 

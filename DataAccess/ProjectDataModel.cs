@@ -39,7 +39,7 @@ namespace DataAccess
         /// </summary>
         public string OwnerId { get; set; }
 
-        public List<string> LinkedRepositoriesURLs { get; set; }
+        public string LinkedRepositoryURL { get; set; }
         
         public string CreatedOn { get; set; }
 

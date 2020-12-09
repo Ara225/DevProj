@@ -28,6 +28,17 @@ namespace DevProjInfra
                 BillingMode = BillingMode.PAY_PER_REQUEST,
                 TableName = "DevProjProjectsTable"
             });
+
+            Table DevProjGoalsTable = new Table(this, "DevProjGoalsTable", new TableProps
+            {
+                PartitionKey = new Attribute
+                {
+                    Name = "Id",
+                    Type = AttributeType.STRING
+                },
+                BillingMode = BillingMode.PAY_PER_REQUEST,
+                TableName = "DevProjGoalsTable"
+            });
         }
     }
 }
