@@ -3,8 +3,6 @@ using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace DataAccess
@@ -13,7 +11,7 @@ namespace DataAccess
     {
         public async Task SendEmailAsync(string receiverAddress, string subject, string htmlBody)
         {
-            string senderAddress = "anna@aitchisonsoft.co.uk";
+            string senderAddress = "no-reply@aitchisonsoft.co.uk";
 
             using (var client = new AmazonSimpleEmailServiceClient(RegionEndpoint.EUWest2))
             {
