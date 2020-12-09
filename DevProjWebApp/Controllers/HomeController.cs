@@ -39,7 +39,6 @@ namespace DevProjWebApp.Controllers
         [HttpPost]
         public IActionResult GoalCreate(GoalViewModel modal)
         {
-            System.Diagnostics.Debug.WriteLine(modal.GoalDueBy);
             return View();
         }
 
