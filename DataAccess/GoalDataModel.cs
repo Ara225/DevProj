@@ -12,6 +12,11 @@ namespace DataAccess
     [DynamoDBTable("DevProjGoalsTable")]
     public class GoalDataModel
     {
+        public GoalDataModel()
+        {
+
+        }
+
         public GoalDataModel(string GoalName, string GoalDescription, string ProjectId, string GoalDueBy)
         {
             if (GoalName == null || GoalDescription == null || ProjectId == null || GoalDueBy == null)
@@ -38,8 +43,6 @@ namespace DataAccess
         /// </summary>
         public string ParentProjectId { get; set; }
 
-        public string LinkedIssueURL { get; set; }
-        
         public string DueBy { get; set; }
 
         public string Description { get; set; }

@@ -61,5 +61,32 @@ namespace DataAccess
             List<DynamoDBUser> UsersList = await Users.GetRemainingAsync();
             return UsersList.FirstOrDefault();
         }
+
+
+        public async Task<List<ProjectDataModel>> GetProjectsByOwnerId(string OwnerId, bool ExcludePrivateProjects)
+        {
+            List<ScanCondition> ConditionList = new List<ScanCondition>();
+            if (ExcludePrivateProjects)
+            {
+                ConditionList.Add(new ScanCondition("isPrivate", ScanOperator.Equal, 0));
+            }
+            ConditionList.Add(new ScanCondition("OwnerId", ScanOperator.Equal, OwnerId));
+            AsyncSearch<ProjectDataModel> Projects = _context.ScanAsync<ProjectDataModel>(
+                ConditionList
+            );
+            List<ProjectDataModel> ProjectsList = await Projects.GetRemainingAsync();
+            return ProjectsList;
+        }
+
+        public async Task<List<GoalDataModel>> GetGoalsByProjectId(string ProjectId)
+        {
+            List<ScanCondition> ConditionList = new List<ScanCondition>();
+            ConditionList.Add(new ScanCondition(ProjectId, ScanOperator.Equal, "ProjectId"));
+            AsyncSearch<GoalDataModel> Goals = _context.ScanAsync<GoalDataModel>(
+                ConditionList
+            );
+            List<GoalDataModel> GoalsList = await Goals.GetRemainingAsync();
+            return GoalsList;
+        }
     }
 }

@@ -1,0 +1,107 @@
+﻿@model List<DataAccess.ProjectDataModel>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<script>
+    document.getElementById("containerDiv").className = "";
+</script>
+
+<section class="container-flex">
+    <div class="col-11 container">
+        @if (ViewBag.Message != null && ViewBag.AlertClass != null)
+        {
+            <div class="alert @ViewBag.AlertClass alert-dismissible fade show" role="alert">
+                @ViewBag.Message
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <div class="row">
+            <div class="container m-0 pl-0">
+                <h2>View Your Projects</h2>
+                <hr />
+                <br />
+            </div>
+            <div class="col-lg-3 col-12 pl-0 pr-0 pt-0 pr-md-5 pb-5">
+                <ul class="list-group shadow bg-light p-1 w-100">
+                    <li class="list-group-item bg-light">
+                        <h5>Filters</h5>
+                    </li>
+                    <li class="list-group-item bg-light">
+                        <label>
+                            <input type="checkbox" /> Hide completed projects
+                        </label>
+                    </li>
+                    <li class="list-group-item bg-light">
+                        <label>
+                            <input type="checkbox" /> Hide completed projects
+                        </label>
+                    </li>
+                    <li class="list-group-item bg-light">
+                        <label>
+                            <input type="checkbox" /> Hide completed projects
+                        </label>
+                    </li>
+                    <li class="list-group-item bg-light">
+                        <label>
+                            <input type="checkbox" /> Hide completed projects
+                        </label>
+                    </li>
+                    <li class="list-group-item bg-light">
+                        <label>
+                            <input type="checkbox" /> Hide completed projects
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 col-lg-9 shadow bg-light mb-5 h-100">
+                <table class="table">
+                    <h5 class="pt-3">Projects</h5>
+                    <br />
+                    @if (Model.Count() == 0)
+                    {
+                        <h5 class="ml-3">Nothing here yet!</h5>
+                        <br />
+                        <a class="btn btn-info ml-3" asp-area="" asp-controller="Home" asp-action="ProjectCreate">Create a Project</a>
+                    }
+                    else
+                    {
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RepositoryURL)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.isPrivate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

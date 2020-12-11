@@ -1,0 +1,98 @@
+﻿@model DevProjWebApp.Models.ProjectViewModel
+
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+<section class="col-12 container text-center mb-3 pt-5 pr-1 pl-1 pr-md-5 pl-md-5">
+    <h1>Create a Project</h1>
+    <hr class="w-25" />
+    @if (ViewBag.Message != null && ViewBag.AlertClass != null)
+    {
+        <div class="alert @ViewBag.AlertClass alert-dismissible fade show" role="alert">
+            @ViewBag.Message
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+<div class="row">
+    <div class=" col-12 col-lg-8 container pt-2">
+        <div class="card ">
+            <form class="card-body text-left" method="post">
+                <h3>Project</h3>
+                <br />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input required asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RepositoryURL" class="control-label"></label>
+                    <input asp-for="RepositoryURL" class="form-control" />
+                    <span asp-validation-for="RepositoryURL" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea required asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="isPrivate" /> @Html.DisplayNameFor(model => model.isPrivate)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><input /></td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class=" col-12 col-lg-4 container pt-2 text-left">
+        <h3>Add Goal</h3>
+        <br />
+        <label asp-for="RepositoryURL" class="control-label"></label>
+        <input class="form-control" />
+        <label asp-for="RepositoryURL" class="control-label"></label>
+        <input class="form-control" />
+        <label asp-for="RepositoryURL" class="control-label"></label>
+        <textarea class="form-control"></textarea>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
