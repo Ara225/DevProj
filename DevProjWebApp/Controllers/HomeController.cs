@@ -23,19 +23,9 @@ namespace DevProjWebApp.Controllers
             _logger = logger;
             _dataAccess = new DynamoDBDataAccessLayer(new Amazon.DynamoDBv2.AmazonDynamoDBClient());
         }
-        
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [Authorize]
-        public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> Index()
         {
             List<ProjectDataModel> Projects = new List<ProjectDataModel>();
             try
@@ -46,24 +36,10 @@ namespace DevProjWebApp.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Message = "Internal Error. Please try again later." ;
+                ViewBag.Message = "Internal Error. Please try again later.";
                 ViewBag.AlertClass = "alert-error";
             }
             return View(Projects);
-        }
-
-        [Authorize]
-        public IActionResult GoalCreate()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public IActionResult GoalCreate(GoalViewModel modal)
-        {
-            return View();
         }
 
         [Authorize]
