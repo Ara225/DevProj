@@ -63,8 +63,8 @@
                                 @Html.DisplayFor(modelItem => item.isPrivate)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                <a class="btn btn-info pl-1 pr-1" href="/Home/CreateProject?@item.Id">Edit</a> 
+                                <a class="btn btn-danger pl-1 pr-1" href="/Home/DeleteProject?@item.Id">Delete</a>
                             </td>
                         </tr>
                     }

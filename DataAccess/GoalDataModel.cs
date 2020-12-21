@@ -19,11 +19,7 @@ namespace DataAccess
 
         public GoalDataModel(string GoalName, string GoalDescription, string ProjectId, string GoalDueBy)
         {
-            if (GoalName == null || GoalDescription == null || ProjectId == null || GoalDueBy == null)
-            {
-                throw new ArgumentNullException();
-            }
-
+            Id = Guid.NewGuid().ToString();
             Name = GoalName;
             NormalizedName = GoalName.ToUpper();
             Description = GoalDescription;

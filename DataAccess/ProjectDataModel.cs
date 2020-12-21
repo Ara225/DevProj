@@ -19,10 +19,6 @@ namespace DataAccess
 
         public ProjectDataModel(string ProjectName, string ProjectDescription, string ProjectOwnerId, bool ProjectIsPrivate)
         {
-            if (ProjectName == null || ProjectDescription == null || ProjectOwnerId == null) { 
-                throw new ArgumentNullException();
-            }
-
             Id = Guid.NewGuid().ToString();
             Name = ProjectName;
             NormalizedName = ProjectName.ToUpper();
