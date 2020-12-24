@@ -12,13 +12,25 @@ namespace DataAccess
     [DynamoDBTable("DevProjProjectsTable")]
     public class ProjectDataModel
     {
+        public ProjectDataModel()
+        {
+
+        }
+
         public ProjectDataModel(string ProjectName, string ProjectDescription, string ProjectOwnerId, bool ProjectIsPrivate)
         {
-            if (ProjectName == null || ProjectDescription == null || ProjectOwnerId == null || isPrivate == null)
-            {
-                throw new ArgumentNullException();
-            }
+            Id = Guid.NewGuid().ToString();
+            Name = ProjectName;
+            NormalizedName = ProjectName.ToUpper();
+            Description = ProjectDescription;
+            OwnerId = ProjectOwnerId;
+            isPrivate = ProjectIsPrivate;
+            CreatedOn = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+        }
 
+        public ProjectDataModel(string ProjectName, string ProjectDescription, string ProjectOwnerId, bool ProjectIsPrivate, string ProjectId)
+        {
+            Id = ProjectId;
             Name = ProjectName;
             NormalizedName = ProjectName.ToUpper();
             Description = ProjectDescription;
@@ -39,7 +51,7 @@ namespace DataAccess
         /// </summary>
         public string OwnerId { get; set; }
 
-        public string LinkedRepositoryURL { get; set; }
+        public string RepositoryURL { get; set; }
         
         public string CreatedOn { get; set; }
 
