@@ -62,8 +62,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Due By</th>
                                 <th scope="col">Description</th>
+                                <th scope="col">Due By</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -75,7 +75,7 @@
                                     <tr id='@index'>
                                         <td><input id='GoalsList[@index].Name' name='GoalsList[@index].Name' required value='@ViewBag.Goals[index].Name' /></td>
                                         <td><input id='GoalsList[@index].Description' name='GoalsList[@index].Description' required value='@ViewBag.Goals[index].Description' /></td>
-                                        <td><input id='GoalsList[@index].GoalDueBy' name='GoalsList[@index].GoalDueBy' required type='date' value='@ViewBag.Goals[index].DueBy' /></td>
+                                        <td><input id='GoalsList[@index].GoalDueBy' name='GoalsList[@index].GoalDueBy' required value='@ViewBag.Goals[index].DueBy' /></td>
                                         <td><button class='btn-sm btn-danger' type='button' onclick='DeleteGoal()' id='btn-@index'>Delete</button></td>
                                         <input id='GoalsList[@index].Id' class='d-none' value='@ViewBag.Goals[index].Id' />
                                     </tr>

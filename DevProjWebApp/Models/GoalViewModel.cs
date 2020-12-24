@@ -13,7 +13,7 @@ namespace DevProjWebApp.Models
         public string Description { get; set; }
         
         [Required]
-        public DateTime GoalDueBy { get; set; }
+        public string GoalDueBy { get; set; }
 
         public string Id { get; set; }
     }

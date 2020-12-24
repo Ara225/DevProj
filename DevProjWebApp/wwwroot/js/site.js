@@ -14,6 +14,18 @@
         "</tr>"
 }
 
-function DeleteGoal() {
-    document.removeChild(document.getElementById(this.id.split("btn-")[1]))
+function DeleteGoal() { 
+    if (document.getElementById("GoalsList[" + this.id.split("btn-")[1] + "].Id").value == "") {
+        document.removeChild(document.getElementById(this.id.split("btn-")[1]))
+    }
+    else {
+        document.getElementById("GoalsList[" + this.id.split("btn-")[1] + "].Name").value = "DELETE_ME"
+        document.getElementById(this.id.split("btn-")[1]).classList.add("d-none")
+    }
+}
+
+function DeleteProject(event) {
+    if (confirm("Do you want to delete this item?")) {
+        window.location = '?DeleteItem=' + event.target.id
+    }
 }

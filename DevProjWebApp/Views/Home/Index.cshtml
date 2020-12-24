@@ -32,6 +32,7 @@
             <table class="table">
                 @if (Model.Count() == 0)
                 {
+                    <br />
                     <h5 class="ml-3">Nothing here yet!</h5>
                     <br />
                     <a class="btn btn-info ml-3" asp-area="" asp-controller="Home" asp-action="ProjectCreate">Create a Project</a>
@@ -63,8 +64,8 @@
                                 @Html.DisplayFor(modelItem => item.isPrivate)
                             </td>
                             <td>
-                                <a class="btn btn-info pl-1 pr-1" href="/Home/CreateProject?id=@item.Id">Edit</a> 
-                                <a class="btn btn-danger pl-1 pr-1" href="/Home/DeleteProject?id=@item.Id">Delete</a>
+                                <a class="btn btn-info pl-1 pr-1" href="/Home/CreateProject?id=@item.Id">Edit</a>
+                                <button class="btn btn-danger pl-1 pr-1" onclick="DeleteProject(event)" id="@item.Id">Delete</button>
                             </td>
                         </tr>
                     }
