@@ -27,6 +27,16 @@ namespace DataAccess
             DueBy = GoalDueBy;
         }
 
+        public GoalDataModel(string GoalName, string GoalDescription, string ProjectId, string GoalDueBy, string GoalId)
+        {
+            Id = GoalId;
+            Name = GoalName;
+            NormalizedName = GoalName.ToUpper();
+            Description = GoalDescription;
+            ParentProjectId = ProjectId;
+            DueBy = GoalDueBy;
+        }
+
         [DynamoDBHashKey]
         public string Id { get; set; }
 

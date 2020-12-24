@@ -43,8 +43,50 @@ namespace DevProjWebApp.Controllers
         }
 
         [Authorize]
-        public IActionResult CreateProject()
+        public async Task<IActionResult> CreateProject()
         {
+            if (Request.QueryString.HasValue)
+            {
+                if (Request.QueryString.Value.Contains("?id="))
+                {
+                    string Id = Request.QueryString.Value.Split("?id=")[1];
+                    System.Diagnostics.Debug.WriteLine(Id);
+                    try
+                    {
+                        // Getting current user as their ID needs to be used in the project record
+                        UserManager<DynamoDBUser> _UserManager = (UserManager<DynamoDBUser>)HttpContext.RequestServices.GetService(typeof(UserManager<DynamoDBUser>));
+                        DynamoDBUser User = await _UserManager.GetUserAsync(HttpContext.User);
+                        ProjectDataModel Project = await _dataAccess.GetProjectById(Id);
+                        System.Diagnostics.Debug.WriteLine(Project.Description);
+
+                        if (Project.OwnerId != User.Id)
+                        {
+                            ViewBag.Message = "Bad query string.";
+                            ViewBag.AlertClass = "alert-error";
+                        }
+                        else
+                        {
+                            ViewBag.ProjectId = Project.Id;
+                            ViewBag.ProjectName = Project.Name;
+                            ViewBag.ProjectPrivacy = Project.isPrivate;
+                            ViewBag.ProjectRepositoryURL = Project.RepositoryURL;
+                            ViewBag.ProjectDescription = Project.Description;
+                            ViewBag.Goals = await _dataAccess.GetGoalsByProjectId(Project.Id);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = "Bad query string.";
+                        ViewBag.AlertClass = "alert-error";
+                        throw;
+                    }
+                }
+                else 
+                {
+                    ViewBag.Message = "Bad query string.";
+                    ViewBag.AlertClass = "alert-error";
+                }
+            }
             return View();
         }
 
@@ -64,9 +106,30 @@ namespace DevProjWebApp.Controllers
                 // Getting current user as their ID needs to be used in the project record
                 UserManager<DynamoDBUser> _UserManager = (UserManager<DynamoDBUser>)HttpContext.RequestServices.GetService(typeof(UserManager<DynamoDBUser>));
                 DynamoDBUser User = await _UserManager.GetUserAsync(HttpContext.User);
-                ProjectDataModel ProjectModal = new ProjectDataModel(modal.Name, modal.Description, User.Id, Convert.ToBoolean(modal.isPrivate));
+                ProjectDataModel ProjectModal;
+                if (modal.Id.Length < 0)
+                {
+                    ProjectModal = new ProjectDataModel(modal.Name, modal.Description, User.Id, Convert.ToBoolean(modal.isPrivate));
+                }
+                else
+                {
+                    ProjectModal = new ProjectDataModel(modal.Name, modal.Description, User.Id, Convert.ToBoolean(modal.isPrivate), modal.Id);
+                }
                 ProjectModal.RepositoryURL = modal.RepositoryURL;
                 await _dataAccess.SaveItemToDB(ProjectModal, new System.Threading.CancellationToken());
+                GoalDataModel GoalToBeSaved;
+                foreach (GoalViewModel Goal in modal.GoalsList)
+                {
+                    if (Goal.Id.Length < 0)
+                    {
+                        GoalToBeSaved = new GoalDataModel(Goal.Name, Goal.Description, ProjectModal.Id, Goal.GoalDueBy.ToString());
+                    }
+                    else
+                    {
+                        GoalToBeSaved = new GoalDataModel(Goal.Name, Goal.Description, ProjectModal.Id, Goal.GoalDueBy.ToString(), Goal.Id);
+                    }
+                    await _dataAccess.SaveItemToDB(GoalToBeSaved, new System.Threading.CancellationToken());
+                }
                 ViewBag.Message = "Project saved.";
                 ViewBag.AlertClass = "alert-info";
             }

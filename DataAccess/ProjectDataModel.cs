@@ -28,6 +28,17 @@ namespace DataAccess
             CreatedOn = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
         }
 
+        public ProjectDataModel(string ProjectName, string ProjectDescription, string ProjectOwnerId, bool ProjectIsPrivate, string ProjectId)
+        {
+            Id = ProjectId;
+            Name = ProjectName;
+            NormalizedName = ProjectName.ToUpper();
+            Description = ProjectDescription;
+            OwnerId = ProjectOwnerId;
+            isPrivate = ProjectIsPrivate;
+            CreatedOn = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+        }
+
         [DynamoDBHashKey]
         public string Id { get; set; }
 

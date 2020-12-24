@@ -14,5 +14,7 @@ namespace DevProjWebApp.Models
         
         [Required]
         public DateTime GoalDueBy { get; set; }
+
+        public string Id { get; set; }
     }
 }

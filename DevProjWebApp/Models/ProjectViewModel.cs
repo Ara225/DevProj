@@ -18,5 +18,7 @@ namespace DevProjWebApp.Models
         public bool isPrivate { get; set; }
 
         public List<GoalViewModel> GoalsList { get; set; }
+
+        public string Id { get; set; }
     }
 }

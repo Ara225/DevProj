@@ -16,81 +16,92 @@
             </button>
         </div>
     }
-<div class="row">
-    <div class=" col-12 col-lg-8 container pt-2">
-        <div class="card ">
-            <form class="card-body text-left" method="post">
-                <h3>Project</h3>
-                <br />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input required asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RepositoryURL" class="control-label"></label>
-                    <input asp-for="RepositoryURL" class="form-control" />
-                    <span asp-validation-for="RepositoryURL" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <textarea required asp-for="Description" class="form-control"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="isPrivate" /> @Html.DisplayNameFor(model => model.isPrivate)
-                    </label>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
+    <div class="row">
+        <div class=" col-12 col-lg-8 container pt-2">
+            <div class="card" style="background-color:inherit">
+                <form class="card-body text-left" method="post">
+                    <h3>Project</h3>
+                    <br />
+                    <input value="@ViewBag.Id" asp-for="Id" class="d-none" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input value="@ViewBag.ProjectName" required asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RepositoryURL" class="control-label"></label>
+                        <input value="@ViewBag.ProjectRepositoryURL" asp-for="RepositoryURL" class="form-control" />
+                        <span asp-validation-for="RepositoryURL" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea value="@ViewBag.ProjectDescription" required asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            @if (ViewBag.ProjectPrivacy)
+                            {
+                                <input class="form-check-input" checked asp-for="isPrivate" /> @Html.DisplayNameFor(model => model.isPrivate)
+                            }
+                            else
+                            {
+                                <input class="form-check-input" asp-for="isPrivate" /> @Html.DisplayNameFor(model => model.isPrivate)
+
+                            }
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                    <br />
+                    <h3>Goals</h3>
+                    <br />
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Due By</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="GoalsTable">
+                            @if (ViewBag.Goals != null)
+                            {
+                                @for (int @index = 0; @index < ViewBag.Goals.Count; @index++)
+                                {
+                                    <tr id='@index'>
+                                        <td><input id='GoalsList[@index].Name' name='GoalsList[@index].Name' required value='@ViewBag.Goals[index].Name' /></td>
+                                        <td><input id='GoalsList[@index].Description' name='GoalsList[@index].Description' required value='@ViewBag.Goals[index].Description' /></td>
+                                        <td><input id='GoalsList[@index].GoalDueBy' name='GoalsList[@index].GoalDueBy' required type='date' value='@ViewBag.Goals[index].DueBy' /></td>
+                                        <td><button class='btn-sm btn-danger' type='button' onclick='DeleteGoal()' id='btn-@index'>Delete</button></td>
+                                        <input id='GoalsList[@index].Id' class='d-none' value='@ViewBag.Goals[index].Id' />
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </form>
+
+            </div>
+        </div>
+        <div class=" col-12 col-lg-4 container pt-2 text-left">
+            <h3>Add a Goal to the project</h3>
+            <br />
+            <form onsubmit="AddGoal(); return false;" id="GoalAddForm">
+                <label class="control-label">Name</label>
+                <input class="form-control" required id="GoalName" />
+                <label class="control-label">Due By</label>
+                <input class="form-control" required id="GoalDueBy" type="date" />
+                <label class="control-label">Description</label>
+                <textarea class="form-control" required id="GoalDescription"></textarea>
+                <input class="d-none" />
+                <button type="submit" class="btn btn-primary">Add</button>
             </form>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td><input /></td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>twitter</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
-    <div class=" col-12 col-lg-4 container pt-2 text-left">
-        <h3>Add Goal</h3>
-        <br />
-        <label asp-for="RepositoryURL" class="control-label"></label>
-        <input class="form-control" />
-        <label asp-for="RepositoryURL" class="control-label"></label>
-        <input class="form-control" />
-        <label asp-for="RepositoryURL" class="control-label"></label>
-        <textarea class="form-control"></textarea>
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
-</div>
 </section>
 
 @section Scripts {
